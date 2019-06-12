@@ -1,0 +1,32 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "nodejs file upload demo to mongodb",
+  "main": "demo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pkavounas/nodeJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pkavounas/nodeJS/issues"
+  },
+  "homepage": "https://github.com/pkavounas/nodeJS#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^2.6.1",
+    "express": "^4.17.1",
+    "gridfs-stream": "^1.1.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.5.14",
+    "multer": "^1.4.1",
+    "multer-gridfs-storage": "^3.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
