@@ -4,7 +4,8 @@
   "description": "mongoDB file upload demo",
   "main": "demo.js",
   "scripts": {
-    "start":"node demo.js"
+    "start":"node demo.js",
+    "dev":"nodemon demo.js"
   },
   "repository": {
     "type": "git",
