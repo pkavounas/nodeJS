@@ -1,4 +1,4 @@
-//init express server
+
 const express = require('express');
 const path = require('path');
 const crypto = require('crypto');
@@ -9,27 +9,29 @@ const gridFSstorage = require('multer-gridfs-storage');
 const grid = require('gridfs-stream');
 const override = require('method-override');
 
-
+//init express server
 const demo = express();
+
 
 
 demo.use(bodyParser.json());
 demo.use(override('_method'))
 demo.set('view engine', 'ejs');
 
-
+//MONGO CONNECTION
 const mongoURI = 'mongodb+srv://pkavounas:pkavounas@demodb-vhfuu.mongodb.net/test?retryWrites=true&w=majority';
-
 
 const connect = mongoose.createConnection(mongoURI);
 
-
+//GRIDFS
 let gfs;
 connect.once('open', () => {
     gfs = grid(connect.db, mongoose.mongo);
     gfs.collection('uploads');
 })
 
+
+//STORAGE
 const storage = new gridFSstorage({
     url: mongoURI,
     file: (req, file) => {
@@ -59,7 +61,7 @@ const storage = new gridFSstorage({
 
 
 
-
+//load index.ejs
   demo.get('/', (req, res) => {
     gfs.files.find().toArray((err, files) => {
       // Check if files
@@ -81,7 +83,7 @@ const storage = new gridFSstorage({
     });
   });
 
-
+//Uploads file to mongoDB
 demo.post('/upload', upload.single('file'), (req, res) => {
     // res.json({file: req.file});
     res.redirect('/');
@@ -89,7 +91,7 @@ demo.post('/upload', upload.single('file'), (req, res) => {
 });
 
 
-
+//Display all files in JSON
 demo.get('/files', (req, res) => {
   gfs.files.find().toArray((err, files) => {
     if(!files || files.length === 0){
@@ -102,6 +104,7 @@ demo.get('/files', (req, res) => {
   });
 });
 
+//Display single file in JSON using given filename in url
 demo.get('/files/:filename', (req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
     
@@ -115,7 +118,7 @@ demo.get('/files/:filename', (req, res) => {
   });
 });
 
-
+//display image by filename request
 demo.get('/image/:filename', (req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
     
@@ -139,6 +142,7 @@ demo.get('/image/:filename', (req, res) => {
 });
 
 
+//delete from DB
 demo.delete('/files/:id', (req, res) => {
   gfs.remove({ _id: req.params.id, root: 'uploads' }, (err, gridStore) => {
     if (err) {
